@@ -1,0 +1,2 @@
+import supabase from './supabase';
+export async function api<T=any>(path:string,options:RequestInit={}):Promise<T>{const {data}=await supabase.auth.getSession();const res=await fetch(`/api/${path}`,{...options,headers:{'Content-Type':'application/json',Authorization:`Bearer ${data.session?.access_token||''}`,...options.headers}});const body=await res.json();if(!res.ok)throw new Error(body.error||'Something went wrong');return body}
